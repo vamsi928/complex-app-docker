@@ -14,3 +14,10 @@ after_success:
   - docker build -t vamsi928/multi-nginx -f ./nginx/Dockerfile ./nginx
   - docker build -t vamsi928/multi-server -f ./server/Dockerfile ./server
   - docker build -t vamsi928/multi-worker -f ./worker/Dockerfile ./worker
+#Login to Docker
+-echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+#take above images and push to docker hub
+  - docker push  vamsi928/multi-client
+  - docker push  vamsi928/multi-nginx
+  - docker push  vamsi928/multi-server
+  - docker push  vamsi928/multi-worker
