@@ -1,0 +1,16 @@
+language: generic
+sudo: required
+services:
+  - docker
+
+before_install:
+  - docker build -t vamsi928/react-test -f ./client/Dockerfile.dev ./client
+
+script:
+  - docker run -e CI=true vamsi928/react-test npm test
+
+after_success:
+  - docker build -t vamsi928/multi-client -f ./client/Dockerfile ./client
+  - docker build -t vamsi928/multi-nginx -f ./nginx/Dockerfile ./nginx
+  - docker build -t vamsi928/multi-server -f ./server/Dockerfile ./server
+  - docker build -t vamsi928/multi-worker -f ./worker/Dockerfile ./worker
